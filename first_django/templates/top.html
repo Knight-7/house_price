@@ -1,0 +1,15 @@
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'index' %}">房价通</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="{{top_info.index}}"><a href="{% url 'index' %}">首页</a></li>
+                <li class="{{top_info.top100}}"><a href="{% url 'top100' %}">top100</a></li>
+                <li class="{{top_info.search}}"><a href="{% url 'search' %}">房价查询</a></li>
+                <li class="{{top_info.analyze}}"><a href="{% url 'analyze' %}?province=5">房价分析</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

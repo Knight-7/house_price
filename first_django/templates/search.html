@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    {% include 'head.html' %}
+    <body>
+        <div class="head">{% include 'top.html' %}</div>
+        <div class="body">
+            <div class="container">
+                <h2>房价查询</h2>
+                <form action="" name="search_form" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="sel1">请选择查询范围</label>
+                        {% if type == '2' %}
+                            <select class="form-control" id="sel1" name="range">
+                                <option value="1">省份</option>
+                                <option value="2" selected>城市</option>
+                            </select>
+                        {% else %}
+                            <select class="form-control" id="sel1" name="range">
+                                <option value="1" selected>省份</option>
+                                <option value="2">城市</option>
+                            </select>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label for="usr">地区名:</label>
+                        <input type="text" class="form-control" id="usr" name="place" value="{{place}}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">查询</button>
+                </form>
+            </div>
+            <div class="container">
+                {% if searched %}
+                    {% if areas %}
+                        <table class="table table-bordered table-hover">
+                            <caption>{{place}}地区的房价如下：</caption>
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>城市</th>
+                                    <th>房价（元/m2）</th>
+                                    <th>同比</th>
+                                    <th>环比</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for area in areas %}
+                                    <tr>
+                                        <td>{{area.id}}</td>
+                                        <td>{{area.name}}</td>
+                                        <td>{{area.price}}</td>
+                                        <td>{{area.mom}}</td>
+                                        <td>{{area.yoy}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <h1>对不起，没有找到相关的信息，请重试</h1>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="bottom"></div>
+    </body>
+</html>

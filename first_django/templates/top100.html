@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+{% include 'head.html' %}
+
+<body>
+    <div class="head">{% include 'top.html' %}</div>
+    <div class="body">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#city">城市</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#urbanarea">县市</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="city" class="tab-pane active"><br>
+                <div class="top100 city">
+                    <table class="table table-hover table-striped">
+                        <caption>全国房价最高的100城市</caption>
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>城市</th>
+                                <th>房价（元/m2）</th>
+                                <th>同比</th>
+                                <th>环比</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for city in cities %}
+                            <tr>
+                                <td>{{city.no}}</td>
+                                <td>{{city.c_name}}</td>
+                                <td>{{city.c_price}}</td>
+                                <td>{{city.c_mom}}</td>
+                                <td>{{city.c_yoy}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="urbanarea" class="tab-pane fade"><br>
+                <div class="top100 urbanarea">
+                    <table class="table table-hover table-striped">
+                        <caption>全国房价最高的100区县</caption>
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>区县</th>
+                                <th>房价（元/m2）</th>
+                                <th>同比</th>
+                                <th>环比</th>
+                                <th>城市</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for urbanarea in urbanareas %}
+                            <tr>
+                                <td>{{urbanarea.no}}</td>
+                                <td>{{urbanarea.u_name}}</td>
+                                <td>{{urbanarea.u_price}}</td>
+                                <td>{{urbanarea.u_mom}}</td>
+                                <td>{{urbanarea.u_yoy}}</td>
+                                <td>{{urbanarea.c.c_name}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom"></div>
+</body>
+
+</html>

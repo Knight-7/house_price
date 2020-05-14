@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+{% include 'head.html' %}
+
+<body>
+    <div class="head">{% include 'top.html' %}</div>
+    <div class="body">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#province">省份分析</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#city">城市分析</a>
+            </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="province" class="tab-pane active"><br>
+                <div class="dropdown">
+                    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+                        {{select_province}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        {% for province in provinces %}
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" href="{% url 'analyze' %}?province={{province.id}}">{{province.p_name}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <img src="../static/images/province_images/histogram/{{province_id}}.png">
+                </div>
+            </div>
+            <div id="city" class="tab-pane fade"><br>
+                <p>城市分析</p>
+            </div>
+        </div>
+    </div>
+    <div class="bottom"></div>
+</body>
+
+</html>
