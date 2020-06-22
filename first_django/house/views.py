@@ -42,14 +42,28 @@ def analyze(request):
         data['provinces'] = models.Province.objects.exclude(p_name__in=['北京', '上海', '重庆', '天津'])
         data['province_id'] = request.GET['province']
         data['select_province'] = data['provinces'][int(request.GET['province']) - 5]
-        """统计选中的省份的城市的房价"""
+
+        """获取选中的省份的城市的房价信息"""
         cities = data['select_province'].city_set.all()
         name_list = [city.c_name for city in cities]
         num_list = [city.c_price for city in cities]
-        plus = cities.filter(c_yoy__startswith='+').aggregate(num=Count('c_yoy'))
+        yoy_num_list = [atof(city.c_yoy[:-1]) for city in cities]
+        mom_num_list = [atof(city.c_mom[:-1]) for city in cities]
+        yoy_increase = cities.filter(c_yoy__startswith='+').aggregate(increase=Count('c_yoy'))
+        yoy_decrease = cities.filter(c_yoy__startswith='-').aggregate(decrease=Count('c_yoy'))
+        mom_increase = cities.filter(c_mom__startswith='+').aggregate(increase=Count('c_mom'))
+        mom_decrease = cities.filter(c_mom__startswith='-').aggregate(decrease=Count('c_mom'))
+
         """将统计好的数据传给数据分析模块并生成数据统计图"""
         data_analyze.histogram('province', data['select_province'].id, 
                 data['select_province'].p_name, list(map(atoi, num_list)), name_list)
+        data_analyze.histogram_changes('province', data['select_province'].id,
+                data['select_province'].p_name, yoy_num_list, mom_num_list, name_list)
+        data_analyze.piechart('province', 0, data['select_province'].id, 
+                data['select_province'].p_name, yoy_increase, yoy_decrease)
+        data_analyze.piechart('province', 1, data['select_province'].id, 
+                data['select_province'].p_name, mom_increase, mom_decrease)
+
     elif 'province' in request.GET and 'city' in request.GET:
         data['type'] = 2
         data['provinces'] = models.Province.objects.exclude(p_name__in=['北京', '上海', '重庆', '天津'])

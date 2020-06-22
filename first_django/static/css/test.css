@@ -1,5 +1,5 @@
-#title{
-    font-size: x-large;
-    background-color: cyan;
+.image{
+    display: table-cell;
+    vertical-align: middle;
     text-align: center;
 }
